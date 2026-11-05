@@ -1,3 +1,11 @@
-<h1 th:text="${muscleGroup}">Muscle group</h1>
-<p>Exercises will appear here.</p>
+<h1 th:text="${#strings.capitalize(muscleGroup)}">Muscle group</h1>
+
+<ul>
+    <li th:each="exercise : ${exercises}">
+        <strong th:text="${exercise.name}">Exercise name</strong>
+        <span th:text="${exercise.sets}">0</span> sets,
+        <span th:text="${exercise.repetitions}">0</span> repetitions,
+        <span th:text="${exercise.restTime}">0</span> seconds rest
+    </li>
+</ul>
 <a href="/">Back to workout plans</a>

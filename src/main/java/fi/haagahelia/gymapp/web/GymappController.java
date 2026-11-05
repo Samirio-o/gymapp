@@ -4,9 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import fi.haagahelia.gymapp.repository.ExerciseRepository;
+import fi.haagahelia.gymapp.domain.Exercise;
 
 @Controller
 public class GymappController {
+    private final ExerciseRepository exerciseRepository;
 
     @GetMapping("/")
     public String home() {
@@ -14,13 +17,21 @@ public class GymappController {
     }
 
     /**
-     * Shows the exercises for the selected muscle group.
-     * The value in the URL is captured by the muscleGroup path variable.
+     * Shows the exercises belonging to the selected muscle group.
+     * The muscle group is read from the URL, and matching exercises
+     * are loaded from the database through the repository.
      */
     @GetMapping("/workouts/{muscleGroup}")
     public String showExercises(@PathVariable String muscleGroup, Model model) {
+        Iterable<Exercise> exercises = exerciseRepository.findByMuscleGroup(muscleGroup);
         model.addAttribute("muscleGroup", muscleGroup);
+        model.addAttribute("exercises", exercises);
+
         return "exercises";
+    }
+
+    public GymappController(ExerciseRepository exerciseRepository) {
+        this.exerciseRepository = exerciseRepository;
     }
 
 }
