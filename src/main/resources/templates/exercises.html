@@ -2,10 +2,15 @@
 
 <ul>
     <li th:each="exercise : ${exercises}">
-        <strong th:text="${exercise.name}">Exercise name</strong>
+        <a th:href="@{/exercises/{id}(id=${exercise.id})}"
+           th:text="${exercise.name}">
+            Exercise name
+        </a>
+
         <span th:text="${exercise.sets}">0</span> sets,
         <span th:text="${exercise.repetitions}">0</span> repetitions,
         <span th:text="${exercise.restTime}">0</span> seconds rest
     </li>
 </ul>
-<a href="/">Back to workout plans</a>
+
+<a href="/">Back to home</a>

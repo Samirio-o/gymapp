@@ -34,4 +34,14 @@ public class GymappController {
         this.exerciseRepository = exerciseRepository;
     }
 
+    /**
+     * Shows the details of one exercise selected by its ID.
+     */
+    @GetMapping("/exercise/{id}")
+    public String showExerciseDetails(@PathVariable Long id, Model model) {
+        Exercise exercise = exerciseRepository.findById(id).orElseThrow();
+        model.addAttribute("exercise", exercise);
+        return "exercise-details";
+    }
+
 }

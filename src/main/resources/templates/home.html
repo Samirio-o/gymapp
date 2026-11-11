@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>GymApp</title>
 </head>
+
 <body>
     <h1>Welcome to GymApp</h1>
     <h2>Choose your training:</h2>
@@ -16,5 +18,11 @@
         <li><a href="/workouts/back">Back</a></li>
         <li><a href="/workouts/legs">Legs</a></li>
     </ul>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit">Logout</button>
+    </form>
 </body>
+
 </html>
