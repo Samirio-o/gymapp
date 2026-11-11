@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register - GymApp</title>
+</head>
+
+<body>
+    <h1>Create an account</h1>
+
+    <div th:if="${param.error}">
+        Username or email already exists.
+    </div>
+
+    <div th:if="${param.success}">
+        Registration completed successfully.
+    </div>
+
+    <form action="/register" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        
+        <label>
+            Username:
+            <input type="text" name="username" required>
+        </label>
+        <br>
+
+        <label>
+            Email:
+            <input type="email" name="email" required>
+        </label>
+        <br>
+
+        <label>
+            Password:
+            <input type="password" name="password" required>
+        </label>
+        <br>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <a href="/login">Back to login</a>
+</body>
+
+</html>
