@@ -1,6 +1,6 @@
 package fi.haagahelia.gymapp.web;
 
-import fi.haagahelia.gymapp.domain.User;
+import fi.haagahelia.gymapp.domain.AppUser;
 import fi.haagahelia.gymapp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -38,7 +38,7 @@ public class RegistrationController {
             return "redirect:/register?error";
         }
 
-        User user = new User();
+        AppUser user = new AppUser();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));

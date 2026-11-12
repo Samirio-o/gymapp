@@ -1,6 +1,6 @@
 package fi.haagahelia.gymapp.service;
 
-import fi.haagahelia.gymapp.domain.User;
+import fi.haagahelia.gymapp.domain.AppUser;
 import fi.haagahelia.gymapp.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        AppUser user = userRepository.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found" + username);
