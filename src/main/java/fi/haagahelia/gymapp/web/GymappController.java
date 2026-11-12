@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import fi.haagahelia.gymapp.repository.ExerciseRepository;
 import fi.haagahelia.gymapp.domain.Exercise;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class GymappController {
@@ -16,6 +18,15 @@ public class GymappController {
         return "home";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+    
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
     /**
      * Shows the exercises belonging to the selected muscle group.
      * The muscle group is read from the URL, and matching exercises

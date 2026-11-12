@@ -7,6 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import fi.haagahelia.gymapp.web.dto.RegistrationForm;
+import jakarta.validation.Valid;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class RegistrationController {
@@ -23,28 +28,48 @@ public class RegistrationController {
      * The registration page is available before authentication.
      */
     @GetMapping("/register")
-    public String showRegistrationForm() {
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("registrationForm", new RegistrationForm());
         return "register";
     }
 
     /**
-     * Creates a new user account after checking that the username and email
-     * are not already registered. The password is encoded before saving.
+     * Validates the registration form, checks that the passwords match
+     * and prevents duplicate usernames or email addresses.
+     * The password is encoded before the user is saved.
      */
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String email,
-            @RequestParam String password) {
-        if (userRepository.existsByUsername(username) || userRepository.existsByEmail(email)) {
-            return "redirect:/register?error";
+    public String registerUser(
+            @Valid @ModelAttribute("registrationForm") RegistrationForm form,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+
+        if (!form.getPassword().equals(form.getConfirmPassword())) {
+            bindingResult.rejectValue(
+                    "confirmPassword",
+                    "password.mismatch",
+                    "Passwords do not match");
+            return "register";
+        }
+
+        if (userRepository.existsByUsername(form.getUsername())
+                || userRepository.existsByEmail(form.getEmail())) {
+            bindingResult.reject(
+                    "user.exists",
+                    "Username or email already exists");
+            return "register";
         }
 
         AppUser user = new AppUser();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setUsername(form.getUsername());
+        user.setEmail(form.getEmail());
+        user.setPassword(passwordEncoder.encode(form.getPassword()));
         user.setRole("USER");
         userRepository.save(user);
 
-        return "redirect:/register?success";
+        return "redirect:/login?registered";
     }
 }
