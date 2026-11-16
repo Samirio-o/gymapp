@@ -7,17 +7,23 @@
 </head>
 
 <body>
-    <h1>Welcome to GymApp</h1>
-    <h2>Choose your training:</h2>
 
+    <h1>My Workout Plans</h1>
+    <a href="/workout-plans/new">Create a new workout plan</a>
+    
     <ul>
-        <li><a href="/workouts/shoulders">Shoulders</a></li>
-        <li><a href="/workouts/chest">Chest</a></li>
-        <li><a href="/workouts/biceps">Biceps</a></li>
-        <li><a href="/workouts/triceps">Triceps</a></li>
-        <li><a href="/workouts/back">Back</a></li>
-        <li><a href="/workouts/legs">Legs</a></li>
+        <li th:each="workoutPlan : ${workoutPlans}">
+            <span th:text="${workoutPlan.name}">Workout name</span>
+            -
+            <span th:text="${#strings.capitalize(workoutPlan.muscleGroup)}">
+                Muscle group
+            </span>
+        </li>
     </ul>
+
+    <p th:if="${#lists.isEmpty(workoutPlans)}">
+        You do not have any workout plans yet.
+    </p>
 
     <form th:action="@{/logout}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

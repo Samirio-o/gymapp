@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Workout Plan - GymApp</title>
+</head>
+<body>
+    <h1>Create a new workout plan</h1>
+
+    <form th:action="@{/workout-plans}" method="post">
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}">
+
+        <label>
+            Name:
+            <input type="text" name="name" required>
+        </label>
+        <br>
+
+        <label>
+            Muscle group:
+            <select name="muscleGroup" required>
+                <option value="shoulders">Shoulders</option>
+                <option value="chest">Chest</option>
+                <option value="biceps">Biceps</option>
+                <option value="triceps">Triceps</option>
+                <option value="back">Back</option>
+                <option value="legs">Legs</option>
+            </select>
+        </label>
+        <br>
+
+        <button type="submit">Create workout plan</button>
+    </form>
+
+    <a href="/">Back to home</a>
+</body>
+</html>

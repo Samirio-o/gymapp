@@ -1,5 +1,8 @@
 package fi.haagahelia.gymapp.web;
 
+import fi.haagahelia.gymapp.domain.WorkoutPlan;
+import fi.haagahelia.gymapp.repository.WorkoutPlanRepository;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
@@ -7,14 +10,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import fi.haagahelia.gymapp.repository.ExerciseRepository;
 import fi.haagahelia.gymapp.domain.Exercise;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.security.core.Authentication;
 
 @Controller
 public class GymappController {
     private final ExerciseRepository exerciseRepository;
+    private final WorkoutPlanRepository workoutPlanRepository;
 
+    /**
+     * Shows only the workout plans belonging to the logged-in user.
+     */
     @GetMapping("/")
-    public String home() {
+    public String home(Authentication authentication, Model model) {
+        Iterable<WorkoutPlan> workoutPlans = workoutPlanRepository.findByUserUsername(authentication.getName());
+
+        model.addAttribute("workoutPlans", workoutPlans);
         return "home";
     }
 
@@ -22,11 +32,11 @@ public class GymappController {
     public String login() {
         return "login";
     }
-    
+
     public String getMethodName(@RequestParam String param) {
         return new String();
     }
-    
+
     /**
      * Shows the exercises belonging to the selected muscle group.
      * The muscle group is read from the URL, and matching exercises
@@ -41,8 +51,11 @@ public class GymappController {
         return "exercises";
     }
 
-    public GymappController(ExerciseRepository exerciseRepository) {
+    public GymappController(
+            ExerciseRepository exerciseRepository,
+            WorkoutPlanRepository workoutPlanRepository) {
         this.exerciseRepository = exerciseRepository;
+        this.workoutPlanRepository = workoutPlanRepository;
     }
 
     /**

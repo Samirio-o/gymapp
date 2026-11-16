@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity 
 public class Exercise {
@@ -18,6 +20,9 @@ public class Exercise {
     private int repetitions;
     private int restTime; // in seconds
 
+    @ManyToOne
+    @JoinColumn(name = "workout_id")
+    private WorkoutPlan workoutPlan;
     public Exercise() {
     }
 
@@ -45,6 +50,10 @@ public class Exercise {
         return restTime;
     }
 
+    public WorkoutPlan getWorkoutPlan() {
+        return workoutPlan;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -63,6 +72,10 @@ public class Exercise {
 
     public void setRestTime(int restTime) {
         this.restTime = restTime;
+    }
+
+    public void setWorkoutPlan(WorkoutPlan workoutPlan) {
+        this.workoutPlan = workoutPlan;
     }
 
 }

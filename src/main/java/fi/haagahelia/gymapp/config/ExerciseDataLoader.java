@@ -5,6 +5,7 @@ import fi.haagahelia.gymapp.repository.ExerciseRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 public class ExerciseDataLoader {
@@ -20,6 +21,7 @@ public class ExerciseDataLoader {
      * This prevents duplicate exercises when the application starts again.
      */
     @Bean
+    @Order(1)
     CommandLineRunner loadExercises(ExerciseRepository repository) {
         return args -> {
             if (repository.count() > 0) {

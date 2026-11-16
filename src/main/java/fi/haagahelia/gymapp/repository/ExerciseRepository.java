@@ -9,4 +9,10 @@ public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
      * Spring Data JPA creates the database query from the method name.
      */
     Iterable<Exercise> findByMuscleGroup(String muscleGroup);
+
+    /**
+     * Finds all exercises belonging to a workout plan.
+     */
+    Iterable<Exercise> findByWorkoutPlanId(Long workoutPlanId);
+    
 }
