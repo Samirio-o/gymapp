@@ -1,0 +1,11 @@
+/* Limits the calendar width and keeps it readable on large screens. */
+#calendar {
+    width: 700px;
+    max-width: 100%;
+    margin-top: 20px;
+    font-size: 0.85rem;
+}
+
+.fc .fc-daygrid-day-frame {
+    min-height: 60px;
+}
