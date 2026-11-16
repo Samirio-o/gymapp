@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Exercise - GymApp</title>
+</head>
+
+<body>
+    <h1>Edit exercise</h1>
+
+    <form th:action="@{/exercises/{id}/edit(id=${exercise.id})}" method="post">
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+        <label>
+            Exercise name:
+            <input type="text" name="name" th:value="${exercise.name}" required>
+        </label>
+        <br>
+
+        <label>
+            Sets:
+            <input type="number" name="sets" th:value="${exercise.sets}" min="1" required>
+        </label>
+        <br>
+
+        <label>
+            Repetitions:
+            <input type="number" name="repetitions" th:value="${exercise.repetitions}" min="1" required>
+        </label>
+        <br>
+
+        <label>
+            Rest in seconds:
+            <input type="number" name="restTime" th:value="${exercise.restTime}" min="0" required>
+        </label>
+        <br>
+
+        <button type="submit">Save changes</button>
+    </form>
+
+    <a th:href="@{/workout-plans/{id}(id=${workoutPlan.id})}">
+        Back to workout plan
+    </a>
+</body>
+
+</html>
