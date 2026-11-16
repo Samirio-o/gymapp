@@ -17,7 +17,7 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button type="submit">Delete workout plan</button>
     </form>
-    
+
     <p>
         Muscle group:
         <span th:text="${#strings.capitalize(workoutPlan.muscleGroup)}">
@@ -51,6 +51,26 @@
             </form>
         </li>
     </ul>
+
+    <h2>Workout diary</h2>
+
+    <form th:action="@{/workout-plans/{id}/logs(id=${workoutPlan.id})}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit">Mark as completed today</button>
+    </form>
+
+    <ul>
+        <li th:each="log : ${workoutLogs}">
+            <span th:text="${log.workoutDate}">2026-01-01</span>
+            <span th:if="${log.notes != null}" th:text="${log.notes}">
+                Notes
+            </span>
+        </li>
+    </ul>
+
+    <p th:if="${#lists.isEmpty(workoutLogs)}">
+        No completed workouts yet.
+    </p>
 
     <p th:if="${#lists.isEmpty(exercises)}">
         This workout plan has no exercises yet.

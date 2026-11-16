@@ -1,5 +1,8 @@
 package fi.haagahelia.gymapp.web;
 
+import java.time.LocalDate;
+import fi.haagahelia.gymapp.domain.WorkoutLog;
+import fi.haagahelia.gymapp.repository.WorkoutLogRepository;
 import fi.haagahelia.gymapp.domain.AppUser;
 import fi.haagahelia.gymapp.domain.Exercise;
 import fi.haagahelia.gymapp.domain.WorkoutPlan;
@@ -22,14 +25,17 @@ public class WorkoutPlanController {
     private final WorkoutPlanRepository workoutPlanRepository;
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
+    private final WorkoutLogRepository workoutLogRepository;
 
     public WorkoutPlanController(
             WorkoutPlanRepository workoutPlanRepository,
             UserRepository userRepository,
-            ExerciseRepository exerciseRepository) {
+            ExerciseRepository exerciseRepository,
+            WorkoutLogRepository workoutLogRepository) {
         this.workoutPlanRepository = workoutPlanRepository;
         this.userRepository = userRepository;
         this.exerciseRepository = exerciseRepository;
+        this.workoutLogRepository = workoutLogRepository;
     }
 
     /**
@@ -58,6 +64,9 @@ public class WorkoutPlanController {
         }
 
         Iterable<Exercise> exercises = exerciseRepository.findByWorkoutPlanId(id);
+        Iterable<WorkoutLog> workoutLogs = workoutLogRepository.findByWorkoutPlanId(id);
+
+        model.addAttribute("workoutLogs", workoutLogs);
 
         model.addAttribute("workoutPlan", workoutPlan);
         model.addAttribute("exercises", exercises);
@@ -155,6 +164,28 @@ public class WorkoutPlanController {
         }
 
         return workoutPlan;
+    }
+
+    /**
+     * Records that the authenticated user completed a workout plan today.
+     */
+    @PostMapping("/workout-plans/{id}/logs")
+    public String logWorkout(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        WorkoutPlan workoutPlan = getUserWorkoutPlan(id, authentication);
+        LocalDate today = LocalDate.now();
+
+        if (!workoutLogRepository.existsByWorkoutPlanIdAndWorkoutDate(id, today)) {
+            WorkoutLog workoutLog = new WorkoutLog();
+            workoutLog.setWorkoutDate(today);
+            workoutLog.setWorkoutPlan(workoutPlan);
+
+            workoutLogRepository.save(workoutLog);
+        }
+
+        return "redirect:/workout-plans/" + id;
     }
 
 }
