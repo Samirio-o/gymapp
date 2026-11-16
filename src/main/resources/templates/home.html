@@ -10,10 +10,12 @@
 
     <h1>My Workout Plans</h1>
     <a href="/workout-plans/new">Create a new workout plan</a>
-    
+
     <ul>
         <li th:each="workoutPlan : ${workoutPlans}">
-            <span th:text="${workoutPlan.name}">Workout name</span>
+            <a th:href="@{/workout-plans/{id}(id=${workoutPlan.id})}" th:text="${workoutPlan.name}">
+                Workout name
+            </a>
             -
             <span th:text="${#strings.capitalize(workoutPlan.muscleGroup)}">
                 Muscle group

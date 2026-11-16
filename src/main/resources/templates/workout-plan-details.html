@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${workoutPlan.name}">Workout plan</title>
+</head>
+
+<body>
+    <h1 th:text="${workoutPlan.name}">Workout plan</h1>
+
+    <p>
+        Muscle group:
+        <span th:text="${#strings.capitalize(workoutPlan.muscleGroup)}">
+            Muscle group
+        </span>
+    </p>
+
+    <h2>Exercises</h2>
+
+    <a th:href="@{/workout-plans/{id}/exercises/new(id=${workoutPlan.id})}">
+        Add exercise
+    </a>
+    
+    <ul>
+        <li th:each="exercise : ${exercises}">
+            <strong th:text="${exercise.name}">Exercise name</strong>
+            -
+            <span th:text="${exercise.sets}">0</span> sets,
+            <span th:text="${exercise.repetitions}">0</span> repetitions,
+            <span th:text="${exercise.restTime}">0</span> seconds rest
+        </li>
+    </ul>
+
+    <p th:if="${#lists.isEmpty(exercises)}">
+        This workout plan has no exercises yet.
+    </p>
+
+    <a href="/">Back to home</a>
+</body>
+
+</html>

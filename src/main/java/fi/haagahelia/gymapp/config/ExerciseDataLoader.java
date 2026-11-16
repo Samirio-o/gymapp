@@ -10,12 +10,6 @@ import org.springframework.core.annotation.Order;
 @Configuration
 public class ExerciseDataLoader {
 
-    private final ExerciseRepository exerciseRepository;
-
-    ExerciseDataLoader(ExerciseRepository exerciseRepository) {
-        this.exerciseRepository = exerciseRepository;
-    }
-
     /**
      * Creates sample exercises only when the repository is empty.
      * This prevents duplicate exercises when the application starts again.
