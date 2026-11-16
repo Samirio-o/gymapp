@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Workout Plan - GymApp</title>
+</head>
+
+<body>
+    <h1>Edit workout plan</h1>
+
+    <form th:action="@{/workout-plans/{id}/edit(id=${workoutPlan.id})}" method="post">
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+        <label>
+            Name:
+            <input type="text" name="name" th:value="${workoutPlan.name}" required>
+        </label>
+        <br>
+
+        <label>
+            Muscle group:
+            <select name="muscleGroup" required>
+                <option value="shoulders" th:selected="${workoutPlan.muscleGroup == 'shoulders'}">
+                    Shoulders
+                </option>
+                <option value="chest" th:selected="${workoutPlan.muscleGroup == 'chest'}">
+                    Chest
+                </option>
+                <option value="biceps" th:selected="${workoutPlan.muscleGroup == 'biceps'}">
+                    Biceps
+                </option>
+                <option value="triceps" th:selected="${workoutPlan.muscleGroup == 'triceps'}">
+                    Triceps
+                </option>
+                <option value="back" th:selected="${workoutPlan.muscleGroup == 'back'}">
+                    Back
+                </option>
+                <option value="legs" th:selected="${workoutPlan.muscleGroup == 'legs'}">
+                    Legs
+                </option>
+            </select>
+        </label>
+        <br>
+
+        <button type="submit">Save changes</button>
+    </form>
+
+    <a th:href="@{/workout-plans/{id}(id=${workoutPlan.id})}">
+        Back to workout plan
+    </a>
+</body>
+
+</html>
