@@ -17,4 +17,9 @@ public interface WorkoutLogRepository
     boolean existsByWorkoutPlanIdAndWorkoutDate(
             Long workoutPlanId,
             LocalDate workoutDate);
+
+    /**
+     * Deletes every workout diary entry associated with a workout plan.
+     */
+    void deleteByWorkoutPlanId(Long workoutPlanId);
 }

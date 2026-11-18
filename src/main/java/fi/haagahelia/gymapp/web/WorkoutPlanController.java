@@ -140,8 +140,11 @@ public class WorkoutPlanController {
 
         WorkoutPlan workoutPlan = getUserWorkoutPlan(id, authentication);
 
+        Iterable<WorkoutLog> workoutLogs =
+                workoutLogRepository.findByWorkoutPlanId(id);
         Iterable<Exercise> exercises = exerciseRepository.findByWorkoutPlanId(id);
 
+        workoutLogRepository.deleteAll(workoutLogs);
         exerciseRepository.deleteAll(exercises);
         workoutPlanRepository.delete(workoutPlan);
 
