@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Controller
 public class WorkoutPlanController {
@@ -131,21 +132,18 @@ public class WorkoutPlanController {
     }
 
     /**
-     * Deletes a workout plan and its exercises.
+     * Deletes a workout plan and all of its related records.
      */
     @PostMapping("/workout-plans/{id}/delete")
+    @Transactional
     public String deleteWorkoutPlan(
             @PathVariable Long id,
             Authentication authentication) {
 
         WorkoutPlan workoutPlan = getUserWorkoutPlan(id, authentication);
 
-        Iterable<WorkoutLog> workoutLogs =
-                workoutLogRepository.findByWorkoutPlanId(id);
-        Iterable<Exercise> exercises = exerciseRepository.findByWorkoutPlanId(id);
-
-        workoutLogRepository.deleteAll(workoutLogs);
-        exerciseRepository.deleteAll(exercises);
+        workoutLogRepository.deleteByWorkoutPlanId(id);
+        exerciseRepository.deleteByWorkoutPlanId(id);
         workoutPlanRepository.delete(workoutPlan);
 
         return "redirect:/";

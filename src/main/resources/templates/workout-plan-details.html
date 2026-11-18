@@ -24,6 +24,24 @@
         </span>
     </p>
 
+    <p>
+        <a th:href="@{/workout-plans/{id}/edit(id=${workoutPlan.id})}">
+            Edit workout plan
+        </a>
+
+        <form th:action="@{/workout-plans/{id}/delete(id=${workoutPlan.id})}"
+              method="post"
+              style="display: inline;">
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+            <button type="submit"
+                    onclick="return confirm('Delete this workout plan and all its exercises and diary entries?');">
+                Delete workout plan
+            </button>
+        </form>
+    </p>
+
     <h2>Exercises</h2>
 
     <a th:href="@{/workout-plans/{id}/exercises/new(id=${workoutPlan.id})}">

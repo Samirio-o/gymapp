@@ -14,5 +14,10 @@ public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
      * Finds all exercises belonging to a workout plan.
      */
     Iterable<Exercise> findByWorkoutPlanId(Long workoutPlanId);
+
+    /**
+     * Deletes every exercise associated with a workout plan.
+     */
+    void deleteByWorkoutPlanId(Long workoutPlanId);
     
 }
