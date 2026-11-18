@@ -80,8 +80,19 @@
 
     <!-- Thymeleaf renders completed dates for calendar.js. -->
     <div id="workout-dates">
-        <span th:each="log : ${workoutLogs}" class="workout-date" th:data-date="${log.workoutDate}">
-        </span>
+        <span th:each="log : ${workoutLogs}"
+              class="workout-date"
+              th:data-id="${log.id}"
+              th:data-date="${log.workoutDate}"></span>
+        <form th:each="log : ${workoutLogs}"
+              class="delete-workout-form"
+              th:data-log-id="${log.id}"
+              th:action="@{/workout-plans/{planId}/logs/{logId}/delete(planId=${workoutPlan.id},logId=${log.id})}"
+              method="post">
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+        </form>
     </div>
 
     <script th:src="@{/js/calendar.js}"></script>

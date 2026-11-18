@@ -1,11 +1,22 @@
-/* Limits the calendar width and keeps it readable on large screens. */
 #calendar {
-    width: 700px;
+    width: 520px;
     max-width: 100%;
     margin-top: 20px;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
 }
 
 .fc .fc-daygrid-day-frame {
-    min-height: 60px;
+    min-height: 42px;
+}
+
+.fc .fc-daygrid-day-number {
+    padding: 4px;
+}
+
+.fc .fc-event {
+    cursor: pointer;
+}
+
+#workout-dates .delete-workout-form {
+    display: none;
 }

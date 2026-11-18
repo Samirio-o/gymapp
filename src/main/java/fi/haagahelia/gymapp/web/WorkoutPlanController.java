@@ -189,4 +189,25 @@ public class WorkoutPlanController {
         return "redirect:/workout-plans/" + id;
     }
 
+    /**
+     * Removes a completed workout entry belonging to the authenticated user.
+     */
+    @PostMapping("/workout-plans/{planId}/logs/{logId}/delete")
+    public String deleteWorkoutLog(
+            @PathVariable Long planId,
+            @PathVariable Long logId,
+            Authentication authentication) {
+
+        WorkoutPlan workoutPlan = getUserWorkoutPlan(planId, authentication);
+        WorkoutLog workoutLog = workoutLogRepository.findById(logId)
+                .orElseThrow();
+
+        if (!workoutLog.getWorkoutPlan().getId().equals(workoutPlan.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        workoutLogRepository.delete(workoutLog);
+        return "redirect:/workout-plans/" + planId;
+    }
+
 }
